@@ -13,7 +13,29 @@
 
 ## 9.13
 ### 问：如何从一个list<int>初始化一个vector<double>?从一个vector<int>又该如何创建？编写代码验证你的答案。
+	
+```C++
+#include<iostream>
+#include<vector>
+#include<list>
 
+using namespace std;
+
+int main(){
+	list<int> ilist = {1,2,3,4,5};
+	vector<int> ivec = {5,4,3,2,1};
+
+	vector<double> ivec_1(ilist.begin(),ilist.end());
+
+	vector<double> ivec_2(ivec.begin(),ivec.end());
+
+	cout << ivec_1.capacity() << " " << ivec_1.size() << " " <<ivec_1[0]
+		<< " " << ivec_1[ivec_1.size()-1] << " " << endl;
+	cout << ivec_2.capacity() << " " << ivec_2.size() << " " <<ivec_2[0]
+                << " " << ivec_2[ivec_2.size()-1] << " " << endl;
+	return 0;
+}
+```
 
 
 ## 9.20
