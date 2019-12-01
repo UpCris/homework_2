@@ -682,11 +682,169 @@ int main(){
 	}
 	return 0;
 }
-
-
-
-
-
-
 ```
-![login](https//github.com/UpCris/homework_2/blob/master/1034.png)
+
+![login](https://github.com/UpCris/homework_2/blob/master/%E8%AE%A1%E5%8D%95%E8%AF%8D%E9%95%BF%E5%BA%A6%E5%92%8C%E6%95%B0%E7%9B%AE.png)
+
+
+## 14.52
+### 在下面的加法表达式中分别选用了哪个operator？列出候选函数、可行函数及为每个可行函数的实参执行的类型转换。
+```C++
+struct longDouble {
+	//用于演示的成员operator+; 在通常情况下+s是个非成员
+	longDouble operator+(const SmallInt&);
+	//其他成员与14.9.2节一致
+};
+longDouble operator+(longDouble&, double);
+SmallInt si;
+longDouble ld;
+ld = si + ld;
+ld = ld + si;
+```
+对于ld=si+ld，由于LongDouble不能转换为SmallInt，因此Smallint的成员operator+和friend operator都不可行。
+
+由于Smallint不能转换为LongDouble，LongDouble的成员operator+和非成员operator+也都不可行。
+
+由于SmallInt可以转换为int， LongDouble了可以转换为float和double，所以内置的operator+(int, float)和operator+(int, double)都可行，会产生二义性。
+
+对于ld=ld+si，类似上一个加法表达式，由于Smallint不能转换为double，LongDouble也不能转换为SmallInt，因此SmallInt的成员operator+和两个非成员operator+都不匹配。
+
+LongDouble的成员operator+可行，且为精确匹配。
+SmallInt可以转换为int，longDouble可以转换为float和double，因此内置的operator+(float, int)和operator(double, int)都可行。但它们都需要类型转换，因此LongDouble的成员operator+优先匹配。
+
+## 15.12
+### 有必要将一个成员函数同时声明成override和final吗？ 
+
+如果希望编译器帮助我们检查是否覆盖了相应的虚函数，同时，禁止派生的类覆盖该函数，那么就有必要同时声明成override和final。而且这样能使得我们的意图更加清晰。
+
+
+## 15.16
+### 改写你在15.2.2节（第533页）练习中编写的数量受限的折扣策略，令其继承Disc_quote。
+```C++
+class Limit_quote : public Disc_quote
+{
+public:
+    Limit_quote() = default;
+    Limit_quote(const std::string& b, double p, std::size_t max, double disc):
+        Disc_quote(b, p, max, disc)  {   }
+
+    double net_price(std::size_t n) const override
+    { return n * price * (n < quantity ? 1 - discount : 1 ); }
+};
+```
+
+## 15.20
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+class base
+{
+	public:
+		void pub_mem();
+	protected:
+		int prot_mem;
+	private:
+		char priv_mem;
+};
+
+struct pub_derv:public base
+{
+	int f() { return prot_mem; }
+	void memfcn (base &b){
+		b = *this;
+		cout << "pub_derv" << endl;
+	}
+};
+
+struct priv_derv:private base
+{
+        int f1() { return prot_mem; }
+        void memfcn (base &b){
+                b = *this;
+                cout << "priv_derv" << endl;
+        }
+};
+
+struct prot_derv:protected base
+{
+        int f2() { return prot_mem; }
+        void memfcn (base &b){
+                b = *this;
+                cout << "prot_derv" << endl;
+        }
+};
+
+struct derived_from_public:public pub_derv{
+	int use_base() { return prot_mem;}
+	void memfcn(base &b)
+	{
+		b = *this;
+		cout << "derived_from_public" << endl;
+	}
+};
+
+struct derived_from_protected:protected prot_derv{
+        int use_base() { return prot_mem;}
+        void memfcn(base &b)
+        {
+                b = *this;
+                cout << "derived_from_protected" << endl;
+        }
+};
+
+int main( int argc, const char *argv[]){
+	pub_derv d1;
+	priv_derv d2;
+	prot_derv d3;
+	derived_from_public dd1;
+	derived_from_protected dd3;
+	base base_1;
+	base *p = new base;
+	p = &d1;
+	p = &dd1;
+	d1.memfcn(base_1);
+	d2.memfcn(base_1);
+	d3.memfcn(base_1);
+	dd1.memfcn(base_1);
+	return 0;
+}
+```
+![login](https://github.com/UpCris/homework_2/blob/master/1520.png)
+
+## 15.30
+### 编写你自己的Basket类，用它计算上一个练习中交易记录的总价格。
+```C++
+class Basket
+{
+public:
+    void add_item(const shared_ptr<Quote> &sales)
+    {
+        items.insert(sales);
+    }
+    double total_receipt (std::ostream&) const;     // 打印每本书的总价和购物篮中所有书的总价
+private:
+    static bool compare(const std::shared_ptr<Quote> &lhs, const std::shared_ptr<Quote> &rhs)
+    {
+        return lhs->isbn() < rhs->isbn();
+    }
+    // multiset保存多个报价，按照compare成员排序
+    std::multiset<std::shared_ptr<Quote>, decltype(compare)*> items{compare};
+};
+
+double Basket::total_receipt(std::ostream &os) const
+{
+    double sum = 0.0;
+
+    for (auto iter = items.cbegin(); iter != items.cend(); iter=items.upper_bound(*iter))
+    {
+        sum += print_total (os, **iter, items.count(*iter));
+    }
+    os << "Total Sale: " << sum << endl;
+    return  sum;
+}
+```
+
+
