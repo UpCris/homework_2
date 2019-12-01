@@ -405,3 +405,288 @@ int main(){
 }
 ```
 ![login](https://github.com/UpCris/homework_2/blob/master/1034.png)
+
+## 11.12
+
+```C++
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+
+using namespace std;
+
+int main(){
+	vector<pair<string,int>>ivec;
+	string s;
+	int v;
+	while (cin >> s && cin>> v)
+		ivec.push_back(pair<string,int>(s,v));
+	
+	for (const auto &d : ivec)
+		cout << d.first << " " << d.second << " " << endl;
+
+	return 0;
+}
+
+```
+![login](https://github.com/UpCris/homework_2/blob/master/pair.png)
+
+
+## 11.17
+### 问：假定 c 是一个string的multiset，v是一个string的vector，解释下面的调用。指出每个调用是否合法：
+
+```C++
+copy(v.begin(), v.end(), inserter(c, c.end()));//将v中元素依次插入到c的尾部
+copy(v.begin(), v.end(), back_inserter(c));//将v中元素依次插入到c的尾部
+copy(c.begin(), c.end(), inserter(v, v.end()));//将c中元素依次插入到v的尾部
+copy(c.begin(), c.end(), back_inserter(v));//将c中元素依次插入到v的尾部
+```
+
+## 13.12
+
+三次析构函数的调用。
+
+函数结束时：
+
+局部变量item1,item2的生命期结束，被销毁，Sales_data的析构函数被调用。
+
+参数accum的生命期结束，被销毁，调用Sales_data的析构函数。
+
+## 13.18
+```C++
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Employee {
+	private:
+		static int sn;
+	public:
+		Employee () { mysn = sn++; }
+		Employee ( const string &s ) { name = s; mysn = sn++;}
+
+		const string &get_name() { return name;}
+		int get_mysn() { return mysn; }
+
+	private:
+		string name;
+		int mysn;
+};
+
+int Employee::sn = 0;
+
+void f(Employee &s){
+	cout << s.get_name() << ":" << s.get_mysn() << endl;
+}
+
+int main(int argc,char **argv){
+	Employee a("赵"), b("林"), c("叶 ");
+	f(a);
+	f(b);
+	f(c);
+	return 0;
+}
+```
+![login](https://github.com/UpCris/homework_2/blob/master/1318.png)
+
+## 13.46
+### 问：什么类型的引用可以绑定到下面的初始化器上？
+```C++
+int f() { return 1; }
+	vector<int> vi(100);
+	int && ri = f();       //返回非引用类型的函数，生成右值
+	int & r2 = vi[0];      //vi[0]具有持有状态，左值
+	int & r3 = r1;         //变量是左值
+	int && r4 = vi[0] * f();  //表达式求值过程中创建的临时对象是右值
+
+```
+
+## 13.49
+### 问：为你的StrVec、String和Message类添加一个移动构造函数和一个移动赋值运算符。
+
+```C++
+	StrVec(StrVec &&s) noexcept : elements(s.elements), first_free(s.first_free), cap(s.cap)
+	{ s.elements = s.first_free = s.cap = nullptr; }
+	StrVec operator=(StrVec &&rhs)noexcept
+	{
+		if (this != &rhs) {
+			free();
+			elements = rhs.elements;
+			first_free = rhs.first_free;
+			cap = rhs.cap;
+			rhs.elements = rhs.cap = rhs.first_free = nullptr;
+		}
+		return *this;
+	}
+```
+```C++
+	String(String &&s) :str(s.str) noexcept
+	{
+		s.str.clear();
+	}
+	String operator=(String &&rhs) noexcept
+	{
+		if (this != &rhs) {
+			str.clear();
+			str = rhs.str;
+		}
+		return *this;
+	}
+```
+
+```C++
+Message::Message(Message &&m) :contents(std::move(m.contents)) 
+{
+	move_Folders(&m);
+}
+Message Message::operator=(Message &&rhs)
+{
+	if (this != &rhs) {
+		remove_from_Folders();
+		contents = std; :move(rhs.contens);
+		move_Folders(&rhs);
+	}
+	return *this;
+}
+```
+
+## 13.58
+### 问： 编写新版本的Foo类，其sorted函数中有打印语句，来验证你对前面两题的答案是否正确。
+
+```C++
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Foo{
+	public:
+		Foo sorted() &&;
+		Foo sorted() const &;
+
+	private:
+		vector<int> data;
+};
+
+Foo Foo::sorted() &&
+{
+	cout << "右值引用版本" << endl;
+	sort( data.begin() , data.end());
+	return *this;
+}
+
+Foo Foo::sorted() const &{
+	cout << "左值引用版本" << endl;
+	Foo ret(*this);
+	return ret.sorted();
+}
+
+int main(int argc, char **argv){
+	Foo f;
+	f.sorted();
+	return 0;
+}
+```
+![login](https://github.com/UpCris/homework_2/blob/master/%E5%B7%A6%E5%8F%B3%E5%80%BC%E7%9A%84%E5%BC%95%E7%94%A8.png)
+
+## 14.3
+
+(a) 都不是 (b)string © vector (d) string
+
+
+## 14.20
+```C++
+istream& Sales_data::operator>>( istream &is, Sales_data &rhs ){
+    is >> rhs.bookNo;
+    is >> rhs.units_sold;
+    is >> rhs.selling_price;
+    is >> rhs.sales_price;
+    if( is && !selling_price )
+        discount = sales_price / selling_price;
+    else
+        rhs = Sales_data();
+    return is;
+}
+ 
+ostream& Sales_data::operator<<( ostream &os, const Sales_data &rhs ){
+    os << rhs.bookNo << " "
+        << rhs.units_sold << " "
+        << rhs.selling_price << " "
+        << rhs.sales_price << " "
+        << rhs.discount; //不添加换行，换行自行添加，增加操作的灵活性。
+    
+    return os;
+}
+ 
+Sales_data& Sales_data::operator+=( const Sales_data &rhs ){
+//同一本书的零售价应该是相同的，所以selling_price应该相同。
+    sales_price = ( sales_price * units_sold + rhs.sales_price * rhs.units_sold )
+                / ( units_sold + rhs.units_sold );
+    units_sold += rhs.units_sold;
+    if( selling_price != 0 )
+        discount = sales_price / selling_price;
+        
+    return *this;
+}
+ 
+Sales_data Sales_data::operator+( const Sales_data &lhs, const Sales_data &rhs ){        
+//默认认为两个Sales_data对象的bookNo相同
+    Sales_data tmp( lhs );
+    tmp += rhs;
+    
+    return tmp;
+}
+
+```
+
+## 14.38
+
+```C++
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class strlenis
+{
+	public:
+		strlenis(int len ) : len (len){}
+		bool operator() (const string &str) {return str.length () == len ;}
+
+	private:
+		int len;
+};
+
+void readstr (istream &is, vector<string> &vec)
+{
+	string word;
+	while (is >> word)
+	{
+		vec.push_back(word);
+	}
+}
+
+int main(){
+	vector<string> vec;
+	readstr(cin , vec);
+	const int minlen = 1;
+	const int maxlen = 10;
+	for ( int i = minlen; i <= maxlen; i++){
+		strlenis slenis(i);
+		cout << "len: " << i << ",cnt: " << count_if(vec.begin(), vec.end(),slenis) << endl;
+	}
+	return 0;
+}
+
+
+
+
+
+
+```
+![login](https//github.com/UpCris/homework_2/blob/master/1034.png)
