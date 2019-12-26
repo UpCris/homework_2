@@ -4,9 +4,22 @@
 - 问：对6种创建和初始化`vector`对象的方法，每一种都给出一个实例。 解释每个`vector`包含什么值。
 
 
+```C++
+vector<int> ivec;  //0
+vector<int> ivec(10); //0 
+vector<int> ivec(10,1); //1
+vector<int> ivec{0,1,2,3,4}; //0,1,2,3,4
+vector<int> ivec(other_vec); //same as other vec
+vector<int> ivec(other_vec.begin(),other_vec.end()); //same as other_vec
+```
+
 ---
 ---
+
+
 ### 9.12 
+
+
 - 问：对于接受一个容器创建其拷贝的构造函数，和接受两个迭代器创建拷贝的构造函数，解释它们的不同。
 
 1. 我们可以用接受两个迭代器创建拷贝的构造函数去复制一个容器的某一部分内容；但是如果使用接受一个容器创建其拷贝的方法，只能复制整个容器。
@@ -14,9 +27,13 @@
 1. 当一个容器初始化为另一个容器的拷贝时，两个容器的容器类型和元素类型都必须相同。当传递迭代器参数来拷贝一个范围时，就不要求容器类型和
 
 元素类型是相同的。
+
 ---
 ---
+
 ### 9.13
+
+
 - 问：如何从一个`list<int>`初始化一个`vector<double>`?从一个`vector<int>`又该如何创建？编写代码验证你的答案。
 	
 ```C++
@@ -43,9 +60,14 @@
             
 ```
 ![login](https://github.com/UpCris/homework_2/blob/master/912.png)
+
 ---
 ---
+
+
 ### 9.20
+
+
 - 问：编写程序，从一个`list<int>`拷贝元素到两个`deque`中。值为偶数的所有元素拷贝到一个`deque`中，而奇数值元素都拷贝到另一个`deque`中。  
 
 ```C++
@@ -81,10 +103,16 @@ int main() {
 }
 ```
 ![login](https://github.com/UpCris/homework_2/blob/master/920.png)
+
+
 ---
 ---
+
+
 ### 9.29
-- 问：假定`vec`包含25个元素，那么vec.resize(100)会做什么？如果接下来调用`vec.resize(10)`会做什么？
+
+
+- 问：假定`vec`包含25个元素，那么`vec.resize(100)`会做什么？如果接下来调用`vec.resize(10)`会做什么？
 
 1. 会默认初始化75个元素添加到vec的末尾。
 
@@ -114,10 +142,15 @@ int main(){
 
 ```
 ![login](https://github.com/UpCris/homework_2/blob/master/929.png)
+
 ---
 ---
+
+
 ### 9.43
-- 问：编写一个函数，接受三个string参数是s、oldVal 和newVal。使用迭代器及insert和erase函数将s中所有oldVal替换为newVal。测试你的程序，用它替换通用的简写形式，如，将"tho"替换为"though",将"thru"替换为"through"。
+
+
+- 问：编写一个函数，接受三个`string`参数是`s`、`oldVal` 和`newVal`。使用迭代器及`insert`和`erase`函数将`s`中所有`oldVal`替换为`newVal`。测试你的程序，用它替换通用的简写形式，如，将"tho"替换为"though",将"thru"替换为"through"。
 
 ```C++
 #include <iostream>
@@ -168,10 +201,16 @@ int main(){
 }
 ```
 ![login](https://github.com/UpCris/homework_2/blob/master/943.png)
+
+
 ---
 ---
+
+
 ### 9.52
-- 问：使用stack处理括号化的表达式。当你看到一个左括号，将其记录下来。当你在一个左括号之后看到一个右括号，从stack中pop对象，直至遇到左括号，将左括号也一起弹出栈。然后将一个值（括号内的运算结果）push到栈中，表示一个括号化的（子）表达式已经处理完毕，被其运算结果所替代。
+
+
+- 问：使用`stack`处理括号化的表达式。当你看到一个左括号，将其记录下来。当你在一个左括号之后看到一个右括号，从`stack`中`pop`对象，直至遇到左括号，将左括号也一起弹出栈。然后将一个值（括号内的运算结果）push到栈中，表示一个括号化的（子）表达式已经处理完毕，被其运算结果所替代。
 
 ```C++
 #include <iostream>
@@ -350,6 +389,8 @@ int main()
 
 ---
 ---
+
+
 ### 10.3
 
 ```C++
@@ -378,7 +419,10 @@ int main(int argc,char *argv[]){
 
 ---
 ---
+
+
 ### 10.15
+
 
 ```C++
 #include <iostream>
@@ -403,7 +447,10 @@ int main(int argc, char *argv []){
 
 ---
 ---
+
+
 ### 10.34
+
 
 ```C++
 #include <iostream>
@@ -425,7 +472,10 @@ int main(){
 
 ---
 ---
+
+
 ### 11.12
+
 
 ```C++
 #include <iostream>
@@ -455,7 +505,9 @@ int main(){
 ---
 
 ### 11.17
-- 问：假定 c 是一个string的multiset，v是一个string的vector，解释下面的调用。指出每个调用是否合法：
+
+
+- 问：假定 c 是一个`string`的`multiset`，`v`是一个`string`的`vector`，解释下面的调用。指出每个调用是否合法：
 
 ```C++
 copy(v.begin(), v.end(), inserter(c, c.end()));//将v中元素依次插入到c的尾部
@@ -471,13 +523,16 @@ copy(c.begin(), c.end(), back_inserter(v));//将c中元素依次插入到v的尾
 
 -函数结束时：
 
-1. 局部变量item1,item2的生命期结束，被销毁，Sales_data的析构函数被调用。
+1. 局部变量`item1`,`item2`的生命期结束，被销毁，`Sales_data`的析构函数被调用。
 
-1. 参数accum的生命期结束，被销毁，调用Sales_data的析构函数。
+1. 参数`accum`的生命期结束，被销毁，调用`Sales_data`的析构函数。
 
 ---
 ---
+
+
 ### 13.18
+
 
 ```C++
 #include <iostream>
@@ -518,8 +573,14 @@ int main(int argc,char **argv){
 
 ---
 ---
+
+
 ### 13.46
+
+
 - 问：什么类型的引用可以绑定到下面的初始化器上？
+
+
 ```C++
 int f() { return 1; }
 	vector<int> vi(100);
@@ -532,7 +593,10 @@ int f() { return 1; }
 ---
 ---
 ### 13.49
+
+
 - 问：为你的StrVec、String和Message类添加一个移动构造函数和一个移动赋值运算符。
+
 
 ```C++
 	StrVec(StrVec &&s) noexcept : elements(s.elements), first_free(s.first_free), cap(s.cap)
@@ -549,6 +613,8 @@ int f() { return 1; }
 		return *this;
 	}
 ```
+
+
 ```C++
 	String(String &&s) :str(s.str) noexcept
 	{
@@ -583,7 +649,10 @@ Message Message::operator=(Message &&rhs)
 ---
 
 ### 13.58
+
+
 - 问： 编写新版本的Foo类，其sorted函数中有打印语句，来验证你对前面两题的答案是否正确。
+
 
 ```C++
 #include <iostream>
@@ -622,7 +691,10 @@ int main(int argc, char **argv){
 ```
 ![login](https://github.com/UpCris/homework_2/blob/master/%E5%B7%A6%E5%8F%B3%E5%80%BC%E7%9A%84%E5%BC%95%E7%94%A8.png)
 
+
+
 ### 14.3
+
 
 - (a) 都不是 (b)string © vector (d) string
 
@@ -630,6 +702,8 @@ int main(int argc, char **argv){
 ---
 
 ### 14.20
+
+
 ```C++
 istream& Sales_data::operator>>( istream &is, Sales_data &rhs ){
     is >> rhs.bookNo;
@@ -675,7 +749,10 @@ Sales_data Sales_data::operator+( const Sales_data &lhs, const Sales_data &rhs )
 ```
 ---
 ---
+
+
 ### 14.38
+
 
 ```C++
 #include <iostream>
@@ -721,8 +798,14 @@ int main(){
 
 ---
 ---
+
+
 ### 14.52
+
+
 - 问：在下面的加法表达式中分别选用了哪个operator？列出候选函数、可行函数及为每个可行函数的实参执行的类型转换。
+
+
 ```C++
 struct longDouble {
 	//用于演示的成员operator+; 在通常情况下+s是个非成员
@@ -749,7 +832,11 @@ ld = ld + si;
 
 ---
 ---
+
+
 ### 15.12
+
+
 - 问:有必要将一个成员函数同时声明成override和final吗？ 
 
 1. 如果希望编译器帮助我们检查是否覆盖了相应的虚函数，同时，禁止派生的类覆盖该函数，那么就有必要同时声明成override和final。
@@ -757,7 +844,11 @@ ld = ld + si;
 
 ---
 ---
+
+
 ### 15.16
+
+
 - 改写你在15.2.2节（第533页）练习中编写的数量受限的折扣策略，令其继承Disc_quote。
 ```C++
 class Limit_quote : public Disc_quote
@@ -773,7 +864,10 @@ public:
 ```
 ---
 ---
+
+
 ### 15.20
+
 
 ```C++
 #include <iostream>
@@ -856,7 +950,11 @@ int main( int argc, const char *argv[]){
 
 ---
 ---
+
+
 ### 15.30
+
+
 - 编写你自己的Basket类，用它计算上一个练习中交易记录的总价格。
 ```C++
 class Basket
