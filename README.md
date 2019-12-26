@@ -1,64 +1,71 @@
 # homework_2
-## 9.11 
-### 问：对6种创建和初始化 vector 对象的方法，每一种都给出一个实例。 解释每个 vector 包含什么值。
+---
+### 9.11 
+- 问：对6种创建和初始化`vector`对象的方法，每一种都给出一个实例。 解释每个`vector`包含什么值。
 
-## 9.12 
-### 问：对于接受一个容器创建其拷贝的构造函数，和接受两个迭代器创建拷贝的构造函数，解释它们的不同。
 
-我们可以用接受两个迭代器创建拷贝的构造函数去复制一个容器的某一部分内容；但是如果使用接受一个容器创建其拷贝的方法，只能复制整个容器。
+---
+---
+### 9.12 
+- 问：对于接受一个容器创建其拷贝的构造函数，和接受两个迭代器创建拷贝的构造函数，解释它们的不同。
 
-当一个容器初始化为另一个容器的拷贝时，两个容器的容器类型和元素类型都必须相同。当传递迭代器参数来拷贝一个范围时，就不要求容器类型和
+1. 我们可以用接受两个迭代器创建拷贝的构造函数去复制一个容器的某一部分内容；但是如果使用接受一个容器创建其拷贝的方法，只能复制整个容器。
+
+1. 当一个容器初始化为另一个容器的拷贝时，两个容器的容器类型和元素类型都必须相同。当传递迭代器参数来拷贝一个范围时，就不要求容器类型和
 
 元素类型是相同的。
-
-## 9.13
-### 问：如何从一个list<int>初始化一个vector<double>?从一个vector<int>又该如何创建？编写代码验证你的答案。
+---
+---
+### 9.13
+- 问：如何从一个`list<int>`初始化一个`vector<double>`?从一个`vector<int>`又该如何创建？编写代码验证你的答案。
 	
 ```C++
-#include<iostream>
-#include<vector>
-#include<list>
-
-using namespace std;
-
-int main(){
-	list<int> ilist = {1,2,3,4,5};
-	vector<int> ivec = {5,4,3,2,1};
-
-	vector<double> ivec_1(ilist.begin(),ilist.end());
-
-	vector<double> ivec_2(ivec.begin(),ivec.end());
-
-	cout << ivec_1.capacity() << " " << ivec_1.size() << " " <<ivec_1[0]
-		<< " " << ivec_1[ivec_1.size()-1] << " " << endl;
-	cout << ivec_2.capacity() << " " << ivec_2.size() << " " <<ivec_2[0]
-                << " " << ivec_2[ivec_2.size()-1] << " " << endl;
-	return 0;
-}
+  1 /*
+  2  * Copyright [2019]
+  3  */
+  4 
+  5 #include<iostream>
+  6 #include<vector>
+  7 #include<list>
+  8 
+  9 int main() {
+ 10     std::list<int>ilist = {1 , 2 , 3 , 4 , 5};
+ 11     std::vector<int>ivec = {5 , 4 , 3 , 2 , 1};
+ 12 
+ 13     std::vector<double>ivec_1(ilist.begin() , ilist.end());
+ 14     std::vector<double>ivec_2(ivec.begin() , ivec.end());
+ 15     
+ 16     std::cout << ivec_1.capacity() << " " << ivec_1.size() << " " <<ivec_1[0] << " " << ivec_1[ivec_1.size()-1] << " " << std::endl;
+ 17     std::cout << ivec_2.capacity() << " " << ivec_2.size() << " " <<ivec_2[0] << " " << ivec_2[ivec_2.size()-1] << " " << std::endl;
+ 18     
+ 19     return 0;
+ 20 }
+            
 ```
 ![login](https://github.com/UpCris/homework_2/blob/master/912.png)
-
-## 9.20
-### 问：编写程序，从一个list<int>拷贝元素到两个deque中。值为偶数的所有元素拷贝到一个deque中，而奇数值元素都拷贝到另一个deque中。  
+---
+---
+### 9.20
+- 问：编写程序，从一个`list<int>`拷贝元素到两个`deque`中。值为偶数的所有元素拷贝到一个`deque`中，而奇数值元素都拷贝到另一个`deque`中。  
 
 ```C++
-#include <iostream>
-#include <list>
-#include <deque>
+#include<iostream>
+#include<list>
+#include<deque>
 
 using namespace std;
 
-int main(){
-	list<int> ilist = {1,2,3,4,5};
-	deque<int> jishu, oushu;
+int main() {
+    list<int> ilist = {1,2,3,4,5};
+    deque<int> jishu, oushu;
 	
-	for (auto i = ilist.cbegin(); i != ilist.cend(); i++){
-		if (*i & 1)
-			jishu.push_back(*i);
-		else
-			oushu.push_back(*i);
-	}
-	cout << "jishu: " ;
+    for (auto i = ilist.cbegin(); i != ilist.cend(); i++){
+	    if (*i & 1)
+		    jishu.push_back(*i);
+	    else
+		    oushu.push_back(*i);
+    }
+    cout << "jishu: " ;
 	for (auto i = jishu.cbegin(); i != jishu.cend(); i++){
 		cout << *i << " ";
 	}
@@ -74,13 +81,14 @@ int main(){
 }
 ```
 ![login](https://github.com/UpCris/homework_2/blob/master/920.png)
+---
+---
+### 9.29
+- 问：假定`vec`包含25个元素，那么vec.resize(100)会做什么？如果接下来调用`vec.resize(10)`会做什么？
 
-## 9.29
-### 问：假定vec包含25个元素，那么vec.resize(100)会做什么？如果接下来调用vec.resize(10)会做什么？
+1. 会默认初始化75个元素添加到vec的末尾。
 
-会默认初始化75个元素添加到vec的末尾。
-
-会将vec中的后90个元素删除。
+1. 会将`vec`中的后90个元素删除。
 
 ```C++
 #include<iostream>
@@ -106,9 +114,10 @@ int main(){
 
 ```
 ![login](https://github.com/UpCris/homework_2/blob/master/929.png)
-
-## 9.43
-### 问：编写一个函数，接受三个string参数是s、oldVal 和newVal。使用迭代器及insert和erase函数将s中所有oldVal替换为newVal。测试你的程序，用它替换通用的简写形式，如，将"tho"替换为"though",将"thru"替换为"through"。
+---
+---
+### 9.43
+- 问：编写一个函数，接受三个string参数是s、oldVal 和newVal。使用迭代器及insert和erase函数将s中所有oldVal替换为newVal。测试你的程序，用它替换通用的简写形式，如，将"tho"替换为"though",将"thru"替换为"through"。
 
 ```C++
 #include <iostream>
@@ -159,9 +168,10 @@ int main(){
 }
 ```
 ![login](https://github.com/UpCris/homework_2/blob/master/943.png)
-
-## 9.52
-### 问：使用stack处理括号化的表达式。当你看到一个左括号，将其记录下来。当你在一个左括号之后看到一个右括号，从stack中pop对象，直至遇到左括号，将左括号也一起弹出栈。然后将一个值（括号内的运算结果）push到栈中，表示一个括号化的（子）表达式已经处理完毕，被其运算结果所替代。
+---
+---
+### 9.52
+- 问：使用stack处理括号化的表达式。当你看到一个左括号，将其记录下来。当你在一个左括号之后看到一个右括号，从stack中pop对象，直至遇到左括号，将左括号也一起弹出栈。然后将一个值（括号内的运算结果）push到栈中，表示一个括号化的（子）表达式已经处理完毕，被其运算结果所替代。
 
 ```C++
 #include <iostream>
@@ -333,11 +343,14 @@ int main()
 	
 	return 0;
 }
-
+---
+---
 ```
 ![login](https://github.com/UpCris/homework_2/blob/master/952.png)
 
-## 10.3
+---
+---
+### 10.3
 
 ```C++
 #include <iostream>
@@ -363,7 +376,9 @@ int main(int argc,char *argv[]){
 ```
 ![login](https://github.com/UpCris/homework_2/blob/master/103.png)
 
-## 10.15
+---
+---
+### 10.15
 
 ```C++
 #include <iostream>
@@ -386,7 +401,9 @@ int main(int argc, char *argv []){
 ```
 ![login](https://github.com/UpCris/homework_2/blob/master/1015.png)
 
-## 10.34
+---
+---
+### 10.34
 
 ```C++
 #include <iostream>
@@ -406,7 +423,9 @@ int main(){
 ```
 ![login](https://github.com/UpCris/homework_2/blob/master/1034.png)
 
-## 11.12
+---
+---
+### 11.12
 
 ```C++
 #include <iostream>
@@ -432,9 +451,11 @@ int main(){
 ```
 ![login](https://github.com/UpCris/homework_2/blob/master/pair.png)
 
+---
+---
 
-## 11.17
-### 问：假定 c 是一个string的multiset，v是一个string的vector，解释下面的调用。指出每个调用是否合法：
+### 11.17
+- 问：假定 c 是一个string的multiset，v是一个string的vector，解释下面的调用。指出每个调用是否合法：
 
 ```C++
 copy(v.begin(), v.end(), inserter(c, c.end()));//将v中元素依次插入到c的尾部
@@ -442,18 +463,22 @@ copy(v.begin(), v.end(), back_inserter(c));//将v中元素依次插入到c的尾
 copy(c.begin(), c.end(), inserter(v, v.end()));//将c中元素依次插入到v的尾部
 copy(c.begin(), c.end(), back_inserter(v));//将c中元素依次插入到v的尾部
 ```
-
-## 13.12
+---
+---
+### 13.12
 
 三次析构函数的调用。
 
-函数结束时：
+-函数结束时：
 
-局部变量item1,item2的生命期结束，被销毁，Sales_data的析构函数被调用。
+1. 局部变量item1,item2的生命期结束，被销毁，Sales_data的析构函数被调用。
 
-参数accum的生命期结束，被销毁，调用Sales_data的析构函数。
+1. 参数accum的生命期结束，被销毁，调用Sales_data的析构函数。
 
-## 13.18
+---
+---
+### 13.18
+
 ```C++
 #include <iostream>
 #include <string>
@@ -491,8 +516,10 @@ int main(int argc,char **argv){
 ```
 ![login](https://github.com/UpCris/homework_2/blob/master/1318.png)
 
-## 13.46
-### 问：什么类型的引用可以绑定到下面的初始化器上？
+---
+---
+### 13.46
+- 问：什么类型的引用可以绑定到下面的初始化器上？
 ```C++
 int f() { return 1; }
 	vector<int> vi(100);
@@ -502,9 +529,10 @@ int f() { return 1; }
 	int && r4 = vi[0] * f();  //表达式求值过程中创建的临时对象是右值
 
 ```
-
-## 13.49
-### 问：为你的StrVec、String和Message类添加一个移动构造函数和一个移动赋值运算符。
+---
+---
+### 13.49
+- 问：为你的StrVec、String和Message类添加一个移动构造函数和一个移动赋值运算符。
 
 ```C++
 	StrVec(StrVec &&s) noexcept : elements(s.elements), first_free(s.first_free), cap(s.cap)
@@ -551,9 +579,11 @@ Message Message::operator=(Message &&rhs)
 	return *this;
 }
 ```
+---
+---
 
-## 13.58
-### 问： 编写新版本的Foo类，其sorted函数中有打印语句，来验证你对前面两题的答案是否正确。
+### 13.58
+- 问： 编写新版本的Foo类，其sorted函数中有打印语句，来验证你对前面两题的答案是否正确。
 
 ```C++
 #include <iostream>
@@ -592,12 +622,14 @@ int main(int argc, char **argv){
 ```
 ![login](https://github.com/UpCris/homework_2/blob/master/%E5%B7%A6%E5%8F%B3%E5%80%BC%E7%9A%84%E5%BC%95%E7%94%A8.png)
 
-## 14.3
+### 14.3
 
-(a) 都不是 (b)string © vector (d) string
+- (a) 都不是 (b)string © vector (d) string
 
+---
+---
 
-## 14.20
+### 14.20
 ```C++
 istream& Sales_data::operator>>( istream &is, Sales_data &rhs ){
     is >> rhs.bookNo;
@@ -641,8 +673,9 @@ Sales_data Sales_data::operator+( const Sales_data &lhs, const Sales_data &rhs )
 }
 
 ```
-
-## 14.38
+---
+---
+### 14.38
 
 ```C++
 #include <iostream>
@@ -686,9 +719,10 @@ int main(){
 
 ![login](https://github.com/UpCris/homework_2/blob/master/%E8%AE%A1%E5%8D%95%E8%AF%8D%E9%95%BF%E5%BA%A6%E5%92%8C%E6%95%B0%E7%9B%AE.png)
 
-
-## 14.52
-### 在下面的加法表达式中分别选用了哪个operator？列出候选函数、可行函数及为每个可行函数的实参执行的类型转换。
+---
+---
+### 14.52
+- 问：在下面的加法表达式中分别选用了哪个operator？列出候选函数、可行函数及为每个可行函数的实参执行的类型转换。
 ```C++
 struct longDouble {
 	//用于演示的成员operator+; 在通常情况下+s是个非成员
@@ -701,25 +735,30 @@ longDouble ld;
 ld = si + ld;
 ld = ld + si;
 ```
-对于ld=si+ld，由于LongDouble不能转换为SmallInt，因此Smallint的成员operator+和friend operator都不可行。
+1. 对于ld=si+ld，由于LongDouble不能转换为SmallInt，因此Smallint的成员operator+和friend operator都不可行。
 
-由于Smallint不能转换为LongDouble，LongDouble的成员operator+和非成员operator+也都不可行。
+2. 由于Smallint不能转换为LongDouble，LongDouble的成员operator+和非成员operator+也都不可行。
 
-由于SmallInt可以转换为int， LongDouble了可以转换为float和double，所以内置的operator+(int, float)和operator+(int, double)都可行，会产生二义性。
+3. 由于SmallInt可以转换为int， LongDouble了可以转换为float和double，所以内置的operator+(int, float)和operator+(int, double)都可行，会产生二义性。
 
-对于ld=ld+si，类似上一个加法表达式，由于Smallint不能转换为double，LongDouble也不能转换为SmallInt，因此SmallInt的成员operator+和两个非成员operator+都不匹配。
+4. 对于ld=ld+si，类似上一个加法表达式，由于Smallint不能转换为double，LongDouble也不能转换为SmallInt，因此SmallInt的成员operator+和两个非成员operator+都不匹配。
 
-LongDouble的成员operator+可行，且为精确匹配。
-SmallInt可以转换为int，longDouble可以转换为float和double，因此内置的operator+(float, int)和operator(double, int)都可行。但它们都需要类型转换，因此LongDouble的成员operator+优先匹配。
+5. LongDouble的成员operator+可行，且为精确匹配。
 
-## 15.12
-### 有必要将一个成员函数同时声明成override和final吗？ 
+6. SmallInt可以转换为int，longDouble可以转换为float和double，因此内置的operator+(float, int)和operator(double, int)都可行。但它们都需要类型转换，因此LongDouble的成员operator+优先匹配。
 
-如果希望编译器帮助我们检查是否覆盖了相应的虚函数，同时，禁止派生的类覆盖该函数，那么就有必要同时声明成override和final。而且这样能使得我们的意图更加清晰。
+---
+---
+### 15.12
+- 问:有必要将一个成员函数同时声明成override和final吗？ 
 
+1. 如果希望编译器帮助我们检查是否覆盖了相应的虚函数，同时，禁止派生的类覆盖该函数，那么就有必要同时声明成override和final。
+2. 而且这样能使得我们的意图更加清晰。
 
-## 15.16
-### 改写你在15.2.2节（第533页）练习中编写的数量受限的折扣策略，令其继承Disc_quote。
+---
+---
+### 15.16
+- 改写你在15.2.2节（第533页）练习中编写的数量受限的折扣策略，令其继承Disc_quote。
 ```C++
 class Limit_quote : public Disc_quote
 {
@@ -732,8 +771,9 @@ public:
     { return n * price * (n < quantity ? 1 - discount : 1 ); }
 };
 ```
-
-## 15.20
+---
+---
+### 15.20
 
 ```C++
 #include <iostream>
@@ -814,8 +854,10 @@ int main( int argc, const char *argv[]){
 ```
 ![login](https://github.com/UpCris/homework_2/blob/master/1520.png)
 
-## 15.30
-### 编写你自己的Basket类，用它计算上一个练习中交易记录的总价格。
+---
+---
+### 15.30
+- 编写你自己的Basket类，用它计算上一个练习中交易记录的总价格。
 ```C++
 class Basket
 {
@@ -846,5 +888,5 @@ double Basket::total_receipt(std::ostream &os) const
     return  sum;
 }
 ```
-
+---
 
